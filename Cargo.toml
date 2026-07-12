@@ -1,0 +1,30 @@
+[package]
+name = "semverity"
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.74"
+description = "Semantic Version Intelligence Toolkit — parse, compare, resolve ranges, check constraints, detect conflicts, bump versions, and analyze package files across ecosystems"
+license = "MIT"
+authors = ["EdgarOrtegaRamirez"]
+keywords = ["semver", "version", "semantic", "dependency", "cli"]
+categories = ["command-line-utilities", "development-tools"]
+repository = "https://github.com/EdgarOrtegaRamirez/semverity"
+homepage = "https://github.com/EdgarOrtegaRamirez/semverity"
+
+[[bin]]
+name = "semverity"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4.5", features = ["derive"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+[dev-dependencies]
+assert_cmd = "2.0"
+predicates = "3.1"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1

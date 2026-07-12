@@ -1,0 +1,24 @@
+# Rust (Cargo.lock tracked for CLI applications)
+# target/ is excluded
+target/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+*.env.local
+
+# Build artifacts
+*.o
+*.so
+*.dylib
+*.exe
