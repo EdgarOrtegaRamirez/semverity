@@ -75,10 +75,7 @@ impl Version {
                 if pre_str.is_empty() {
                     return Err(ParseError::EmptyIdentifier);
                 }
-                (
-                    &version_pre[..pos],
-                    split_identifiers(pre_str),
-                )
+                (&version_pre[..pos], split_identifiers(pre_str))
             }
             None => (version_pre, Vec::new()),
         };

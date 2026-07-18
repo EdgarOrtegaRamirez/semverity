@@ -324,7 +324,7 @@ impl fmt::Display for VersionRange {
         if self.is_empty() {
             return write!(f, "(none)");
         }
-        let parts: Vec<String> = self.intervals.iter().map(|i| format_interval(i)).collect();
+        let parts: Vec<String> = self.intervals.iter().map(format_interval).collect();
         write!(f, "{}", parts.join(" OR "))
     }
 }

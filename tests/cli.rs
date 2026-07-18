@@ -1,6 +1,6 @@
 use assert_cmd::Command;
-use predicates::str::contains;
 use predicates::ord::eq;
+use predicates::str::contains;
 
 fn semverity() -> Command {
     Command::cargo_bin("semverity").unwrap()
@@ -22,10 +22,7 @@ fn test_parse_valid_version() {
 #[test]
 fn test_parse_prerelease() {
     let mut cmd = semverity();
-    let assert = cmd
-        .arg("parse")
-        .arg("2.0.0-beta.1+sha.abc")
-        .assert();
+    let assert = cmd.arg("parse").arg("2.0.0-beta.1+sha.abc").assert();
     assert
         .success()
         .stdout(contains("Version: 2.0.0-beta.1+sha.abc"))
@@ -65,11 +62,7 @@ fn test_compare_equal() {
 #[test]
 fn test_compare_prerelease_vs_stable() {
     let mut cmd = semverity();
-    let assert = cmd
-        .arg("compare")
-        .arg("1.0.0-alpha")
-        .arg("1.0.0")
-        .assert();
+    let assert = cmd.arg("compare").arg("1.0.0-alpha").arg("1.0.0").assert();
     assert.success().stdout(contains("1.0.0-alpha < 1.0.0"));
 }
 
@@ -109,11 +102,7 @@ fn test_sort_descending() {
 #[test]
 fn test_check_satisfies() {
     let mut cmd = semverity();
-    let assert = cmd
-        .arg("check")
-        .arg("1.5.0")
-        .arg("^1.0.0")
-        .assert();
+    let assert = cmd.arg("check").arg("1.5.0").arg("^1.0.0").assert();
     assert
         .success()
         .stdout(contains("✓ 1.5.0 satisfies ^1.0.0"));
@@ -122,14 +111,8 @@ fn test_check_satisfies() {
 #[test]
 fn test_check_does_not_satisfy() {
     let mut cmd = semverity();
-    let assert = cmd
-        .arg("check")
-        .arg("2.0.0")
-        .arg("^1.0.0")
-        .assert();
-    assert
-        .failure()
-        .stdout(contains("does NOT satisfy"));
+    let assert = cmd.arg("check").arg("2.0.0").arg("^1.0.0").assert();
+    assert.failure().stdout(contains("does NOT satisfy"));
 }
 
 #[test]
@@ -142,89 +125,55 @@ fn test_check_with_ecosystem() {
         .arg("--ecosystem")
         .arg("cargo")
         .assert();
-    assert
-        .success()
-        .stdout(contains("✓"));
+    assert.success().stdout(contains("✓"));
 }
 
 #[test]
 fn test_resolve_npm_range() {
     let mut cmd = semverity();
-    let assert = cmd
-        .arg("resolve")
-        .arg("^1.2.3")
-        .assert();
+    let assert = cmd.arg("resolve").arg("^1.2.3").assert();
     assert.success().stdout(contains("Status: valid"));
 }
 
 #[test]
 fn test_resolve_empty_range() {
     let mut cmd = semverity();
-    let assert = cmd
-        .arg("resolve")
-        .arg(">=1.0.0 <1.0.0")
-        .assert();
-    assert
-        .success()
-        .stdout(contains("Status: empty"));
+    let assert = cmd.arg("resolve").arg(">=1.0.0 <1.0.0").assert();
+    assert.success().stdout(contains("Status: empty"));
 }
 
 #[test]
 fn test_intersect_compatible() {
     let mut cmd = semverity();
-    let assert = cmd
-        .arg("intersect")
-        .arg(">=1.0.0")
-        .arg("<3.0.0")
-        .assert();
-    assert
-        .success()
-        .stdout(contains("Status: valid"));
+    let assert = cmd.arg("intersect").arg(">=1.0.0").arg("<3.0.0").assert();
+    assert.success().stdout(contains("Status: valid"));
 }
 
 #[test]
 fn test_intersect_incompatible() {
     let mut cmd = semverity();
-    let assert = cmd
-        .arg("intersect")
-        .arg("<1.0.0")
-        .arg(">=2.0.0")
-        .assert();
-    assert
-        .success()
-        .stdout(contains("Status: empty"));
+    let assert = cmd.arg("intersect").arg("<1.0.0").arg(">=2.0.0").assert();
+    assert.success().stdout(contains("Status: empty"));
 }
 
 #[test]
 fn test_bump_major() {
     let mut cmd = semverity();
-    let assert = cmd
-        .arg("bump")
-        .arg("1.2.3")
-        .arg("major")
-        .assert();
+    let assert = cmd.arg("bump").arg("1.2.3").arg("major").assert();
     assert.success().stdout(eq("2.0.0\n"));
 }
 
 #[test]
 fn test_bump_minor() {
     let mut cmd = semverity();
-    let assert = cmd
-        .arg("bump")
-        .arg("1.2.3")
-        .arg("minor")
-        .assert();
+    let assert = cmd.arg("bump").arg("1.2.3").arg("minor").assert();
     assert.success().stdout(eq("1.3.0\n"));
 }
 
 #[test]
 fn test_bump_patch() {
     let mut cmd = semverity();
-    let assert = cmd
-        .arg("bump")
-        .arg("1.2.3")
-        .arg("patch")
-        .assert();
+    let assert = cmd.arg("bump").arg("1.2.3").arg("patch").assert();
     assert.success().stdout(eq("1.2.4\n"));
 }
 
@@ -244,11 +193,7 @@ fn test_bump_prerelease() {
 #[test]
 fn test_diff_major() {
     let mut cmd = semverity();
-    let assert = cmd
-        .arg("diff")
-        .arg("1.0.0")
-        .arg("2.0.0")
-        .assert();
+    let assert = cmd.arg("diff").arg("1.0.0").arg("2.0.0").assert();
     assert
         .success()
         .stdout(contains("upgrade"))
@@ -258,14 +203,8 @@ fn test_diff_major() {
 #[test]
 fn test_diff_downgrade() {
     let mut cmd = semverity();
-    let assert = cmd
-        .arg("diff")
-        .arg("2.0.0")
-        .arg("1.0.0")
-        .assert();
-    assert
-        .success()
-        .stdout(contains("downgrade"));
+    let assert = cmd.arg("diff").arg("2.0.0").arg("1.0.0").assert();
+    assert.success().stdout(contains("downgrade"));
 }
 
 #[test]

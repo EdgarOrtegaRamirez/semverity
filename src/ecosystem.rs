@@ -107,6 +107,7 @@ fn parse_npm_conjunction(input: &str) -> Result<VersionRange, RangeParseError> {
 }
 
 /// Parse a single npm comparator.
+#[allow(clippy::needless_question_mark)]
 fn parse_npm_comparator(input: &str) -> Result<VersionRange, RangeParseError> {
     let input = input.trim();
 

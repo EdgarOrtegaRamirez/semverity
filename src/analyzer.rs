@@ -351,8 +351,8 @@ fn analyze_go_mod(content: &str, path: &Path) -> Result<AnalysisResult, AnalyzeE
         }
 
         // Single-line require
-        if line.starts_with("require ") {
-            let rest = line["require ".len()..].trim();
+        if let Some(rest) = line.strip_prefix("require ") {
+            let rest = rest.trim();
             if let Some(dep) = parse_go_dep(rest) {
                 deps.push(dep);
             }
